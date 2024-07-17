@@ -1,0 +1,12 @@
+[book]
+authors = ["DraftedDev", "Maycoon Contributors"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Maycoon Guide"
+
+[rust]
+edition = "2021"
+
+[build]
+create-missing = true
