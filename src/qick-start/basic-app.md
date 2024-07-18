@@ -5,12 +5,13 @@ create a basic counter App with increase and decrease buttons, as well as a text
 
 ## Setup
 
-You will not need any extra features to develop this app, but we recommend to follow
-the [Installation](./installation.md) guide.
+For creating a new project, see the [Installation Guide](./installation.md).
+
+We need to enable the `macros` feature, which is enabled by default, so you shouldn't worry about it.
 
 ## The App
 
-First we need to import the necessary items from the `maycoon` crate.
+First we need to import the necessary items from the `maycoon` crate:
 
 ```rust
 use maycoon::core::app::update::Update;
@@ -24,7 +25,7 @@ use maycoon::widgets::container::Container;
 use maycoon::widgets::text::Text;
 ```
 
-Now we need a way to store values between frames using a state. You can use `#[derive(State)]` to automatically implement the `State` trait.
+Now we need a way to store values between frames using a state. You can use `#[derive(State)]` to automatically implement the `State` trait for a struct:
 
 ```rust
 #[derive(State)]
@@ -33,7 +34,7 @@ struct MyState {
 }
 ```
 
-After that we only need to create the `MayApp` struct. We'll use the default config and an empty `Container` widget for now.
+After that we only need to create the `MayApp` struct with some widgets:
 
 ```rust
 fn main() {
