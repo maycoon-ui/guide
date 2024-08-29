@@ -17,43 +17,39 @@ First we need to import the necessary items from the `maycoon` crate:
 use maycoon::core::app::update::Update;
 use maycoon::core::app::MayApp;
 use maycoon::core::config::MayConfig;
-use maycoon::core::layout::{AlignItems, Dimension, Display, FlexDirection, LayoutStyle};
+use maycoon::core::layout::{AlignItems, Dimension, FlexDirection, LayoutStyle};
 use maycoon::macros::{val, State};
 use maycoon::math::Vector2;
 use maycoon::widgets::button::Button;
 use maycoon::widgets::container::Container;
 use maycoon::widgets::text::Text;
-```
 
-Now we need a way to store values between frames using a state. You can use `#[derive(State)]` to automatically implement the `State` trait for a struct:
-
-```rust
 #[derive(State)]
 struct MyState {
     count: i32,
 }
-```
 
-After that we only need to create the `MayApp` struct with some widgets:
-
-```rust
 fn main() {
     MayApp::new(MayConfig::default()).run(
         MyState { count: 0 },
         Container::new(vec![
-            Box::new(Button::new(Text::new(val!("Increase"))).with_on_pressed(
-                |state: &mut MyState| {
-                    state.count += 1;
-                    Update::DRAW
-                },
-            )),
-            Box::new(Button::new(Text::new(val!("Decrease"))).with_on_pressed(
-                |state: &mut MyState| {
-                    state.count -= 1;
-                    Update::DRAW
-                },
-            )),
-            Box::new(Text::new(val!(|state: &MyState| state.count))),
+            Box::new(
+                Button::new(Text::new("Increase".to_string())).with_on_pressed(
+                    |state: &mut MyState| {
+                        state.count += 1;
+                        Update::DRAW
+                    },
+                ),
+            ),
+            Box::new(
+                Button::new(Text::new("Decrease".to_string())).with_on_pressed(
+                    |state: &mut MyState| {
+                        state.count -= 1;
+                        Update::DRAW
+                    },
+                ),
+            ),
+            Box::new(Text::new(val!(|state: &MyState| state.count.to_string()))),
         ])
         .with_layout_style(LayoutStyle {
             size: Vector2::<Dimension>::new(Dimension::Percent(1.0), Dimension::Percent(1.0)),
@@ -67,7 +63,7 @@ fn main() {
 
 A `Container` widget draws and handles a collection of widgets specified as a Vector of `Box`ed Widgets. In our case, we need two buttons: Increase and decrease to manipulate our counter value.
 
-We use the `val!()` macro to automatically create a `StateVal` from an expression.
+We use the `val!()` macro to automatically create a `Val` from a closure.
 
 For the two buttons, we need to define `Update`s to apply updates to the App.
 
@@ -79,11 +75,4 @@ The `with_layout_style` function applies a custom layout which centers the widge
 
 To launch the App, you can run `cargo run`.
 
-If you encounter an error about a stack overflow, you may need to optimize the app using following config:
-
-```toml
-[profile.dev]
-opt-level = "1"
-# Uncomment this if it still doesn't work:
-# lto = "thin"
-```
+You should see a window with "Increase" and "Decrease" buttons along with a text pop up.
